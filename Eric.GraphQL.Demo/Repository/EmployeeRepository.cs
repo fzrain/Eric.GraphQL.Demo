@@ -20,5 +20,10 @@ namespace Eric.GraphQL.Demo.Repository
         {
             return _context.Employee.ToListAsync();
         }
+
+        public Task<Employee> GetEmployeeById(long id)
+        {
+            return _context.Employee.SingleAsync(a => a.Id == id);
+        }
     }
 }

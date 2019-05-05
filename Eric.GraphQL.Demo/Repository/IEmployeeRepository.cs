@@ -9,5 +9,6 @@ namespace Eric.GraphQL.Demo.Repository
     public interface IEmployeeRepository
     {
         Task<List<Employee>> GetEmployees();
+        Task<Employee> GetEmployeeById(long id);
     }
 }
