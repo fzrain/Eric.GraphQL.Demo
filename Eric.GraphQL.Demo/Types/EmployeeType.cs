@@ -4,13 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Eric.GraphQL.Demo.Models;
 using Eric.GraphQL.Demo.Repository;
+using GraphQL.DataLoader;
 using GraphQL.Types;
 
 namespace Eric.GraphQL.Demo.Types
 {
     public class EmployeeType:ObjectGraphType<Employee>
     {
-        public EmployeeType(ICertificaationRepository certificationRepository)
+        public EmployeeType(ICertificaationRepository certificationRepository, IDataLoaderContextAccessor dataLoaderContextAccessor)
         {
             Field(a => a.Id);
             Field(a => a.Name);
@@ -22,7 +23,13 @@ namespace Eric.GraphQL.Demo.Types
             Field(a => a.LongDescription);
             Field<ListGraphType<EmployeeCertificationType>>(
                 "certifications",
-                resolve:context=>certificationRepository.GetCertificationByEmployee(context.Source.Id));
+                resolve: context =>
+                {
+                    var loader = dataLoaderContextAccessor.Context.GetOrAddCollectionBatchLoader<long, Certification>(
+                        "GetCertificationByEmployee", certificationRepository.GetCertificationByEmployee);
+
+                    return loader.LoadAsync(context.Source.Id);
+                });
         }
     }
 }

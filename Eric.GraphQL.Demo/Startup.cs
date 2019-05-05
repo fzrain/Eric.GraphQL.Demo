@@ -38,7 +38,7 @@ namespace Eric.GraphQL.Demo
             services.AddScoped<ICertificaationRepository, CertificationRepository>();
             services.AddScoped<IDependencyResolver>(s=>new FuncDependencyResolver(s.GetRequiredService));
             services.AddScoped<EmployeeSchema>();
-            services.AddGraphQL(o => o.ExposeExceptions = false).AddGraphTypes(ServiceLifetime.Scoped);
+            services.AddGraphQL(o => o.ExposeExceptions = false).AddGraphTypes(ServiceLifetime.Scoped).AddDataLoader();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -15,9 +15,10 @@ namespace Eric.GraphQL.Demo.Repository
             _context = context;
         }
 
-        public Task<List<Certification>> GetCertificationByEmployee(long employeeId)
+        public async Task<ILookup<long, Certification>> GetCertificationByEmployee(IEnumerable<long> employeeIds)
         {
-            return _context.Certification.Where(a => a.Id == employeeId).ToListAsync();
+            var reviews = await _context.Certification.Where(a => employeeIds.Contains(a.EmployeeId.Value)).ToListAsync();
+            return reviews.ToLookup(r => r.EmployeeId.Value);
         }
     }
 }

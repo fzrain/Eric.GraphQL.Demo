@@ -10,7 +10,7 @@ namespace Eric.GraphQL.Demo.Query
 {
     public class EmployeeQuery: ObjectGraphType
     {
-        public EmployeeQuery(IEmployeeRepository employeeRepository)
+        public EmployeeQuery(IEmployeeRepository employeeRepository,ICertificaationRepository certificaationRepository)
         {
             Field<ListGraphType<EmployeeType>>(
                 "employees",
@@ -23,7 +23,7 @@ namespace Eric.GraphQL.Demo.Query
                 {
                     var id = context.GetArgument<int>("id");
                     return employeeRepository.GetEmployeeById(id);
-                });
+                });         
         }
     }
 }
