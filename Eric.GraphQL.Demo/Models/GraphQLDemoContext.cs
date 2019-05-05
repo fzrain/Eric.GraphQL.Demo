@@ -15,6 +15,7 @@ namespace Eric.GraphQL.Demo.Models
         {
         }
 
+        public virtual DbSet<Certification> Certification { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -29,6 +30,17 @@ namespace Eric.GraphQL.Demo.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.4-servicing-10062");
+
+            modelBuilder.Entity<Certification>(entity =>
+            {
+                entity.Property(e => e.Provider)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
 
             modelBuilder.Entity<Employee>(entity =>
             {

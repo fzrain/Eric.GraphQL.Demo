@@ -35,6 +35,7 @@ namespace Eric.GraphQL.Demo
             services.AddDbContext<GraphQLDemoContext>(o =>
                 o.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<ICertificaationRepository, CertificationRepository>();
             services.AddScoped<IDependencyResolver>(s=>new FuncDependencyResolver(s.GetRequiredService));
             services.AddScoped<EmployeeSchema>();
             services.AddGraphQL(o => o.ExposeExceptions = false).AddGraphTypes(ServiceLifetime.Scoped);

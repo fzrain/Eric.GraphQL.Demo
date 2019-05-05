@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Eric.GraphQL.Demo.Models;
+using Eric.GraphQL.Demo.Repository;
 using GraphQL.Types;
 
 namespace Eric.GraphQL.Demo.Types
 {
     public class EmployeeType:ObjectGraphType<Employee>
     {
-        public EmployeeType()
+        public EmployeeType(ICertificaationRepository certificationRepository)
         {
             Field(a => a.Id);
             Field(a => a.Name);
@@ -19,6 +20,9 @@ namespace Eric.GraphQL.Demo.Types
             Field(a => a.Address);
             Field(a => a.ShortDescription);
             Field(a => a.LongDescription);
+            Field<ListGraphType<EmployeeCertificationType>>(
+                "certifications",
+                resolve:context=>certificationRepository.GetCertificationByEmployee(context.Source.Id));
         }
     }
 }
